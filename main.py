@@ -28,7 +28,7 @@ while True:
         else:
             print("These are your current customers:")
             for customer in customers:
-                print(f"Customer: {customers.index(customer) + 1} - customerFirst name: {customer.getFirstName()} - Last name: {customer.getLastName()} - Address: {customer.getAddress()}")
+                print(f"Customer: {customers.index(customer) + 1} - First name: {customer.getFirstName()} - Last name: {customer.getLastName()} - Address: {customer.getAddress()}")
 
             index = input("Provide the number of the customer you would to remove.")
 
