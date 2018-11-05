@@ -24,14 +24,14 @@ while True:
         if len(customers) == 0:
             print("There are no customers in the list.")
         else:
+            print("These are your current customers:")
             for customer in customers:
-                print("These are your current customers:")
-                print(f"Item: {customers.index(customer) + 1} - customerFirst name: {customer.getFirstName()} - Last name: {customer.getLastName()} - Address: {customer.getAddress()}")
+                print(f"Customer: {customers.index(customer) + 1} - customerFirst name: {customer.getFirstName()} - Last name: {customer.getLastName()} - Address: {customer.getAddress()}")
 
             index = input("Provide the number of the customer you would to remove.")
 
             index = int(index)
-            if index > len(customers) or index <= 0:
+            if index - 1 > len(customers) or index <= 0:
                 print("Customer not found.")
             else:
                 del customers[int(index) - 1]
