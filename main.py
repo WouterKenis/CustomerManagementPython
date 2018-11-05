@@ -31,7 +31,7 @@ while True:
             index = input("Provide the number of the customer you would to remove.")
 
             index = int(index)
-            if index - 1 > len(customers) or index <= 0:
+            if index > len(customers) or index <= 0:
                 print("Customer not found.")
             else:
                 del customers[int(index) - 1]
