@@ -4,20 +4,22 @@ customers = []
 
 print("Welcome to your CustomerManagement package.")
 while True:
-    action = input("Input 'add' to add data, 'del' to delete data or 'show' to show your customer list.")
+    action = input("Input 'add' to add data, 'del' to delete data or 'show' to show your customer list.\n")
 
     if action not in ["add", "del", "show"]:
         print("Invalid input.")
         continue
 
     elif action == "add":
-        firstName = input("Please provide the first name of the customer")
-        lastName = input("Please provide the last name of the customer")
-        address = input("Please provide the address of the customer")
+        firstName = input("Please provide the first name of the customer.\n")
+        lastName = input("Please provide the last name of the customer.\n")
+        address = input("Please provide the address of the customer.\n")
 
         customer = Customer(firstName, lastName)
         customer.setAddress(address)
         customers.append(customer)
+
+        print("Done.")
 
     elif action == "del":
 
