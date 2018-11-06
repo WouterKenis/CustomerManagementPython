@@ -45,6 +45,7 @@ def printDatabase():
     for row in data:
         print(f"Customer: {row[0]} - First name: {row[1]} - Last name: {row[2]} - Address: {row[3]}")
 
+    print()
     conn.close()
 
 def getRowCount():
@@ -87,7 +88,7 @@ while True:
         conn.commit()
         conn.close()
 
-        print("Done.")
+        print("Done.\n")
 
     elif action == "del":
 
@@ -100,21 +101,25 @@ while True:
             printDatabase()
 
             index = input("Provide the number of the customer you would like to remove.\n")
-            index = int(index)
-
-            conn = sqlite3.connect('customers.db')
-            c = conn.cursor()
-            c.execute(f"DELETE from customers where id = {index}")
-
-            if c.rowcount == 0:
-                print("Customer not found")
-
+            if index.isdigit() == False:
+                print("Please enter a number.\n")
             else:
-                print("Done.")
-                conn.commit()
 
-            conn.close()
-            refreshDatabase()
+                index = int(index)
+
+                conn = sqlite3.connect('customers.db')
+                c = conn.cursor()
+                c.execute(f"DELETE from customers where id = {index}")
+
+                if c.rowcount == 0:
+                    print("Customer not found.\n")
+
+                else:
+                    print("Done.\n")
+                    conn.commit()
+
+                conn.close()
+                refreshDatabase()
 
     elif action == "show":
 
@@ -124,7 +129,7 @@ while True:
         conn.close()
 
         if getRowCount() == 0:
-            print("There are no customers in the list.")
+            print("There are no customers in the list.\n")
         else:
 
             printDatabase()
