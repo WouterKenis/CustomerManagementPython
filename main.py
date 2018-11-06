@@ -20,14 +20,20 @@ def refreshDatabase():
     conn = sqlite3.connect('customers.db')
     c = conn.cursor()
 
-    c.execute("SELECT * from customers")
-
     data = c.fetchall()
 
+    count = 1
     for row in data:
-        print(f"Customer: {row[0]} - First name: {row[1]} - Last name: {row[2]} - Address: {row[3]}")
+        currentId = row[0]
+        print(currentId)
+        c.execute(f"UPDATE customers set id = {count} where id = {currentId}")
+        count = count + 1
 
+
+    conn.commit()
     conn.close()
+
+    printDatabase()
 
 
 def printDatabase():
@@ -95,7 +101,7 @@ while True:
 
             printDatabase()
 
-            index = input("Provide the number of the customer you would to remove.")
+            index = input("Provide the number of the customer you would to remove.\n")
             index = int(index)
 
             conn = sqlite3.connect('customers.db')
@@ -108,20 +114,20 @@ while True:
             else:
                 print("Done.")
                 conn.commit()
-                #refreshDataBase()
 
             conn.close()
 
+            refreshDatabase()
     elif action == "show":
 
         conn = sqlite3.connect('customers.db')
         c = conn.cursor()
-        count = c.arraysize
-        print(count)
+
         conn.close()
 
-        if count == 0:
+        if getRowCount() == 0:
             print("There are no customers in the list.")
         else:
+            
             printDatabase()
 
