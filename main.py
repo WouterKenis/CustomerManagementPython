@@ -2,17 +2,62 @@ from Customer import Customer
 import sqlite3
 
 
+conn = sqlite3.connect('customers.db')
+c = conn.cursor()
+c.execute("DROP TABLE customers")
+c.execute("""CREATE TABLE customers (
+            id INTEGER PRIMARY KEY,
+          FirstName text,
+          LastName text,
+          Address text
+          )""")
+
+conn.commit()
+
+conn.close()
+
+def refreshDatabase():
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * from customers")
+
+    data = c.fetchall()
+
+    for row in data:
+        print(f"Customer: {row[0]} - First name: {row[1]} - Last name: {row[2]} - Address: {row[3]}")
+
+    conn.close()
 
 
+def printDatabase():
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
 
-# c.execute("""CREATE TABLE customers (
-#           FirstName text,
-#           LastName text,
-#           Address text
-#           )""")
+    c.execute("SELECT * from customers")
 
+    data = c.fetchall()
 
-#customers = []
+    for row in data:
+        print(f"Customer: {row[0]} - First name: {row[1]} - Last name: {row[2]} - Address: {row[3]}")
+
+    conn.close()
+
+def getRowCount():
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * from customers")
+
+    data = c.fetchall()
+
+    count = 0;
+    for row in data:
+        count = count + 1
+
+    conn.close()
+
+    return count
 
 print("Welcome to your CustomerManagement package.")
 while True:
@@ -29,65 +74,54 @@ while True:
 
         customer = Customer(firstName, lastName)
         customer.setAddress(address)
-        #customers.append(customer)
 
         conn = sqlite3.connect('customers.db')
         c = conn.cursor()
         params = (customer.getFirstName(), customer.getLastName(), customer.getAddress())
-        c.execute("INSERT INTO customers VALUES (?, ?, ?)", params)
+        c.execute("INSERT INTO customers VALUES (NULL, ?, ?, ?)", params)
 
         conn.commit()
-
         conn.close()
 
         print("Done.")
 
     elif action == "del":
 
-        conn = sqlite3.connect('customers.db')
-        c = conn.cursor()
-        count = c.execute("SELECT COUNT(*) from customers")
-
-        conn.close()
+        count = getRowCount()
         if count == 0:
             print("There are no customers in the list.")
         else:
             print("These are your current customers:")
 
-            # for customer in customers:
-            #     print(f"Customer: {customers.index(customer) + 1} - First name: {customer.getFirstName()} - Last name: {customer.getLastName()} - Address: {customer.getAddress()}")
-
-            conn = sqlite3.connect('customers.db')
-            c = conn.cursor()
-            count = c.execute("SELECT * from customers")
-            print(c.fetchall())
-            conn.close()
+            printDatabase()
 
             index = input("Provide the number of the customer you would to remove.")
-
             index = int(index)
-            #if index > len(customers) or index <= 0:
-            if action:
-                print("Customer not found.")
-            else:
-                #del customers[int(index) - 1]
-                print("Done.")
-
-    elif action == "show":
-        conn = sqlite3.connect('customers.db')
-        c = conn.cursor()
-        count = c.execute("SELECT COUNT(*) from customers")
-
-        conn.close()
-        if count == 0:
-            print("There are no customers in the list.")
-
-        else:
-            # for customer in customers:
-            #     print(f"First name: {customer.getFirstName()} - Last name: {customer.getLastName()} - Address: {customer.getAddress()}")
 
             conn = sqlite3.connect('customers.db')
             c = conn.cursor()
-            count = c.execute("SELECT * from customers")
-            print(c.fetchall())
+            c.execute(f"DELETE from customers where id = {index}")
+
+            if c.rowcount == 0:
+                print("Customer not found")
+
+            else:
+                print("Done.")
+                conn.commit()
+                #refreshDataBase()
+
             conn.close()
+
+    elif action == "show":
+
+        conn = sqlite3.connect('customers.db')
+        c = conn.cursor()
+        count = c.arraysize
+        print(count)
+        conn.close()
+
+        if count == 0:
+            print("There are no customers in the list.")
+        else:
+            printDatabase()
+
