@@ -1,7 +1,6 @@
 from Customer import Customer
 import sqlite3
 
-
 conn = sqlite3.connect('customers.db')
 c = conn.cursor()
 c.execute("DROP TABLE customers")
@@ -13,7 +12,6 @@ c.execute("""CREATE TABLE customers (
           )""")
 
 conn.commit()
-
 conn.close()
 
 def refreshDatabase():
@@ -29,10 +27,8 @@ def refreshDatabase():
         c.execute(f"UPDATE customers set id = {count} where id = {currentId}")
         count = count + 1
 
-
     conn.commit()
     conn.close()
-
 
 def printDatabase():
     conn = sqlite3.connect('customers.db')
@@ -61,7 +57,6 @@ def getRowCount():
         count = count + 1
 
     conn.close()
-
     return count
 
 print("Welcome to your CustomerManagement package.")
@@ -97,7 +92,6 @@ while True:
             print("There are no customers in the list.")
         else:
             print("These are your current customers:")
-
             printDatabase()
 
             index = input("Provide the number of the customer you would like to remove.\n")
@@ -113,24 +107,18 @@ while True:
 
                 if c.rowcount == 0:
                     print("Customer not found.\n")
+                    conn.close()
 
                 else:
                     print("Done.\n")
                     conn.commit()
-
-                conn.close()
-                refreshDatabase()
-
+                    conn.close()
+                    refreshDatabase()
+                
     elif action == "show":
-
-        conn = sqlite3.connect('customers.db')
-        c = conn.cursor()
-
-        conn.close()
 
         if getRowCount() == 0:
             print("There are no customers in the list.\n")
         else:
 
             printDatabase()
-
